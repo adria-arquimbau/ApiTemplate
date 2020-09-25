@@ -23,7 +23,7 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.UpdateValueItem
         [Theory, AutoData]
         public async Task UpdateValueItem(string key, string keyIdentifier, int value)
         {
-            var valueItem = new ValueItem(key, value);
+            var valueItem = new ValueItemEntity(key, value);
 
             var deleteRequest = new UpdateValueItemCommandRequest
             {

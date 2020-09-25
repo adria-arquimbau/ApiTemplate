@@ -2,20 +2,20 @@
 
 namespace ApiTemplate.Values.Domain.Entities
 {
-    public class ValueItem : IEquatable<ValueItem>
+    public class ValueItemEntity : IEquatable<ValueItemEntity>
     {
         public Guid Id { get; set; }
         public string Key { get; set; }
         public int Value { get; set; }
 
-        public ValueItem(string key, int value)
+        public ValueItemEntity(string key, int value)
         {
             Id = new Guid();
             Key = key;
             Value = value;
         }
 
-        public bool Equals(ValueItem other)
+        public bool Equals(ValueItemEntity other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -27,7 +27,7 @@ namespace ApiTemplate.Values.Domain.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((ValueItem)obj);
+            return Equals((ValueItemEntity)obj);
         }
 
         public override int GetHashCode()
@@ -35,12 +35,12 @@ namespace ApiTemplate.Values.Domain.Entities
             return HashCode.Combine(Id, Key, Value);
         }
 
-        public static bool operator ==(ValueItem left, ValueItem right)
+        public static bool operator ==(ValueItemEntity left, ValueItemEntity right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ValueItem left, ValueItem right)
+        public static bool operator !=(ValueItemEntity left, ValueItemEntity right)
         {
             return !Equals(left, right);
         }

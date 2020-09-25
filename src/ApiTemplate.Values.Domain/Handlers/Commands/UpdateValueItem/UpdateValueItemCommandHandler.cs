@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Exceptions;
@@ -26,7 +23,7 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.UpdateValueItem
             return await valueItem.Match(async v =>
             {
                     
-                await _valueItemRepository.Update(new ValueItem(request.Key, request.Value));
+                await _valueItemRepository.Update(new ValueItemEntity(request.Key, request.Value));
 
                 return new UpdateValueItemCommandResponse
                 {

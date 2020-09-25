@@ -16,33 +16,34 @@ namespace ApiTemplate.Values.Infrastructure.Data.Repositories
             this._valueItemDbContext = valueItemDbContext;
         }
 
-        public async Task<Option<ValueItem>> Get(string key)
+        public async Task<Option<ValueItemEntity>> Get(string key)
         {
             var item = await _valueItemDbContext.ValueItems.FirstOrDefaultAsync(i => i.Key == key);     
             return item.SomeNotNull();
         }
 
-        public async Task<IReadOnlyCollection<ValueItem>> Get()
+        public async Task<IReadOnlyCollection<ValueItemEntity>> Get()
         {
             var items = await _valueItemDbContext.ValueItems.ToListAsync();
             return items;
         }
 
-        public async Task Create(ValueItem item)
+        public async Task Create(ValueItemEntity itemEntity)
         {
-            await _valueItemDbContext.ValueItems.AddAsync(item);
+            await _valueItemDbContext.ValueItems.AddAsync(itemEntity);
             await _valueItemDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(ValueItem valueItem)
+        public async Task Delete(ValueItemEntity valueItemEntity)
         {
-            _valueItemDbContext.ValueItems.Remove(valueItem);
+            _valueItemDbContext.ValueItems.Remove(valueItemEntity);
             await _valueItemDbContext.SaveChangesAsync();
         }
 
-        public Task Update(ValueItem valueItem)
+        public async Task Update(ValueItemEntity valueItemEntity)
         {
-            throw new System.NotImplementedException();
+            _valueItemDbContext.UpdateRange(valueItemEntity);
+            await _valueItemDbContext.SaveChangesAsync();
         }
     }
 }

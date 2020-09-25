@@ -21,13 +21,13 @@ namespace ApiTemplate.Values.Domain.Tests.Queries.GetValueItem
             var valueItemRepository = A.Fake<IValueItemRepository>();
             ILogger<GetValueItemHandler> logger = NullLogger<GetValueItemHandler>.Instance;
 
-            A.CallTo(() => valueItemRepository.Get(key)).Returns(Option.Some(new ValueItem(key, value)));
+            A.CallTo(() => valueItemRepository.Get(key)).Returns(Option.Some(new ValueItemEntity(key, value)));
 
             var handler = new GetValueItemHandler(valueItemRepository, logger);
 
             var response = await handler.Handle(new GetValueItemRequest(key), CancellationToken.None);
 
-            response.ValueItem.Should().BeEquivalentTo(new ValueItem(key, value));
+            response.ValueItemEntity.Should().BeEquivalentTo(new ValueItemEntity(key, value));
             A.CallTo(() => valueItemRepository.Get(key)).MustHaveHappenedOnceExactly();
         }
     }

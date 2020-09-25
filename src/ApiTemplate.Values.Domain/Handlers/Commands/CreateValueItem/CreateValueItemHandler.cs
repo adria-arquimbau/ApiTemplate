@@ -36,7 +36,7 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
                 
             }
 
-            var item = new ValueItem(request.Key, valueInt);
+            var item = new ValueItemEntity(request.Key, valueInt);
 
             await _valueItemRepository.Create(item);
             

@@ -5,11 +5,11 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItem
 {
     public class GetValueItemResponse
     {
-        public ValueItem ValueItem { get; }
+        public ValueItemEntity ValueItemEntity { get; }
 
-        public GetValueItemResponse(ValueItem valueItem)
+        public GetValueItemResponse(ValueItemEntity valueItemEntity)
         {
-            ValueItem = valueItem;
+            ValueItemEntity = valueItemEntity;
         }
     }
 }

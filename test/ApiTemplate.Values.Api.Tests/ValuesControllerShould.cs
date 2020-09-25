@@ -3,13 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using ApiTemplate.Values.Api.Models;
+using ApiTemplate.Values.Domain.Entities;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xbehave;
 using Xunit;
-using ValueItem = ApiTemplate.Values.Domain.Entities.ValueItem;
 
 namespace ApiTemplate.Values.Api.Tests
 {
@@ -40,7 +40,7 @@ namespace ApiTemplate.Values.Api.Tests
                     await _factory.RespawnDbContext();
                 });
 
-            "When we ask to create the item"
+            "When we ask to create the itemEntity"
                 .x(async () =>
                 {
                     response = await _client.PostAsync($"api/v1.0/values/{key}/{value}", null);
@@ -52,7 +52,7 @@ namespace ApiTemplate.Values.Api.Tests
                     response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 });
 
-            "Then the item is returned with the right information"
+            "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
                     response.EnsureSuccessStatusCode();
@@ -75,7 +75,7 @@ namespace ApiTemplate.Values.Api.Tests
         //            await _factory.RespawnDbContext();
         //        }); 
 
-        //    "When we ask to create the item"
+        //    "When we ask to create the itemEntity"
         //        .x(async () =>
         //        {
         //            response = await _client.PostAsync($"api/v1.0/values/{key}/0", null);
@@ -87,12 +87,12 @@ namespace ApiTemplate.Values.Api.Tests
         //            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
         //        });
 
-        //    "Then the item is returned with the right information"
+        //    "Then the itemEntity is returned with the right information"
         //        .x(async () =>
         //        {
         //            response.EnsureSuccessStatusCode();
         //            var json = await response.Content.ReadAsStringAsync();
-        //            var result = JsonConvert.DeserializeObject<ValueItem>(json);
+        //            var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
 
         //            result.Key.Should().Be(key);
         //            result.Value.Should().Be(123);
@@ -104,10 +104,10 @@ namespace ApiTemplate.Values.Api.Tests
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "Given an item is in the database"
+            "Given an itemEntity is in the database"
                 .x(async () =>
                 {
-                    var item = new ValueItem(key, value);
+                    var item = new ValueItemEntity(key, value);
                     await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
@@ -116,18 +116,18 @@ namespace ApiTemplate.Values.Api.Tests
                     });
                 });
 
-            "When we ask for that item through the API"
+            "When we ask for that itemEntity through the API"
                 .x(async () =>
                 {
                     response = await _client.GetAsync($"api/v1.0/values/{key}");
                 });
 
-            "Then the item is returned with the right information"
+            "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
                     response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItem>(json);
+                    var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
 
                     result.Key.Should().Be(key);
                     result.Value.Should().Be(value);
@@ -135,7 +135,7 @@ namespace ApiTemplate.Values.Api.Tests
         }
 
         [Scenario, AutoData]
-        public void ReturnAllItems(List<ValueItem> valueItems)
+        public void ReturnAllItems(List<ValueItemEntity> valueItems)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
@@ -150,7 +150,7 @@ namespace ApiTemplate.Values.Api.Tests
                     });
                 });
 
-            "When we ask for that item through the API"
+            "When we ask for that itemEntity through the API"
                 .x(async () =>
                 {
                     response = await _client.GetAsync($"api/v1.0/values/");
@@ -161,7 +161,7 @@ namespace ApiTemplate.Values.Api.Tests
                 {
                     response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<List<ValueItem>>(json);
+                    var result = JsonConvert.DeserializeObject<List<ValueItemEntity>>(json);
 
                     result.Should().BeEquivalentTo(valueItems);
                 });
@@ -172,13 +172,13 @@ namespace ApiTemplate.Values.Api.Tests
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "Given an item is not in the database"
+            "Given an itemEntity is not in the database"
                 .x(async () =>
                 {
                     await _factory.RespawnDbContext();
                 });
 
-            "When we ask for that item through the API"
+            "When we ask for that itemEntity through the API"
                 .x(async () =>
                 {
                     response = await _client.GetAsync($"api/v1.0/values/{key}");
@@ -197,10 +197,10 @@ namespace ApiTemplate.Values.Api.Tests
             var deletedResponse = new HttpResponseMessage(HttpStatusCode.NotImplemented);
             var getResponse = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "Given an item is in the database"
+            "Given an itemEntity is in the database"
                 .x(async () =>
                 {
-                    var item = new ValueItem(key, value);
+                    var item = new ValueItemEntity(key, value);
                     await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
@@ -209,7 +209,7 @@ namespace ApiTemplate.Values.Api.Tests
                     });
                 });
 
-            "When we ask for delete the specific item"
+            "When we ask for delete the specific itemEntity"
                 .x(async () =>
                 {
                     deletedResponse = await _client.DeleteAsync($"api/v1.0/values/{key}");
@@ -221,13 +221,13 @@ namespace ApiTemplate.Values.Api.Tests
                     deletedResponse.StatusCode.Should().Be(HttpStatusCode.OK);
                 });
 
-            "Then the value item was deleted when we ask for the specific deleted item"   
+            "Then the value itemEntity was deleted when we ask for the specific deleted itemEntity"   
                 .x(async () =>
                 {
                     getResponse = await _client.GetAsync($"api/v1.0/values/{key}");
                 });
 
-            "Then the value item not exists"
+            "Then the value itemEntity not exists"
                 .x(async () =>
                 {
                     getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -245,7 +245,7 @@ namespace ApiTemplate.Values.Api.Tests
                     await _factory.RespawnDbContext();
                 });
 
-            "When we ask for delete the specific item"
+            "When we ask for delete the specific itemEntity"
                 .x(async () =>
                 {
                     response = await _client.DeleteAsync($"api/v1.0/values/{key}");
@@ -259,22 +259,28 @@ namespace ApiTemplate.Values.Api.Tests
         }
 
         [Scenario, AutoData]
-        public void UpdateAValueItemGivenAKey(string key, int value)
+        public void UpdateAValueItemGivenAKey(string key, int value, string keyToUpdate, int valueToUpdate)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
             var request = new ValueItemRequest
             {
-                Key = key,
-                Value = value
+                Key = keyToUpdate,
+                Value = valueToUpdate
             };
-
+                
             "Deleting all items on the data base"
                 .x(async () =>
                 {
+                    var item = new ValueItemEntity(key, value);
                     await _factory.RespawnDbContext();
+                    await _factory.ExecuteDbContextAsync(async context =>
+                    {
+                        await context.ValueItems.AddAsync(item);
+                        await context.SaveChangesAsync();
+                    });
                 });
 
-            "When we ask to update an existing item"
+            "When we ask to update an existing itemEntity"
                 .x(async () =>
                 {
                     response = await _client.PutAsync($"api/v1.0/values/{key}", new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8,
@@ -287,15 +293,15 @@ namespace ApiTemplate.Values.Api.Tests
                     response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 });
 
-            "Then the item is returned with the right information"
+            "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
                     response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItem>(json);
+                    var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
 
-                    result.Key.Should().Be(key);
-                    result.Value.Should().Be(value);
+                    result.Key.Should().Be(keyToUpdate);
+                    result.Value.Should().Be(valueToUpdate);
                 });
         }
     }

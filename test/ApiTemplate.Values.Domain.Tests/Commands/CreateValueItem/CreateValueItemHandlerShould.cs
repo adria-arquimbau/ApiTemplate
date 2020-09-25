@@ -29,7 +29,7 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
             var valueItemRepository = A.Fake<IValueItemRepository>();
             ILogger<GetValueItemHandler> logger = NullLogger<GetValueItemHandler>.Instance;
             
-            var item = new ValueItem(key, value);
+            var item = new ValueItemEntity(key, value);
             
             var handler = new CreateValueItemHandler(valueItemRepository, _numbersProxy);
 

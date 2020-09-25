@@ -7,11 +7,11 @@ namespace ApiTemplate.Values.Domain.Repositories
 {
     public interface IValueItemRepository
     {
-        Task<Option<ValueItem>> Get(string key);
-        Task<IReadOnlyCollection<ValueItem>> Get();
-        Task Create(ValueItem item);
-        Task Delete(ValueItem valueItem);
-        Task Update(ValueItem valueItem);
+        Task<Option<ValueItemEntity>> Get(string key);
+        Task<IReadOnlyCollection<ValueItemEntity>> Get();
+        Task Create(ValueItemEntity itemEntity);
+        Task Delete(ValueItemEntity valueItemEntity);
+        Task Update(ValueItemEntity valueItemEntity);
     }
 }
             

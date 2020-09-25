@@ -25,7 +25,7 @@ namespace ApiTemplate.Values.Domain.Tests.Queries.GetValueItems
         }
 
         [Theory, AutoData]
-        public async Task ReturnAllValueItems(List<ValueItem> valueItems)
+        public async Task ReturnAllValueItems(List<ValueItemEntity> valueItems)
         {
             itemRepository.Get().Returns(valueItems);
             var resultItems = await queryHandler.Handle(new GetValueItemsQueryRequest(), CancellationToken.None);

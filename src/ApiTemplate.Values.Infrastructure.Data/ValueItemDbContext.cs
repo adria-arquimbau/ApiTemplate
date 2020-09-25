@@ -7,7 +7,7 @@ namespace ApiTemplate.Values.Infrastructure.Data
 {
     public class ValueItemDbContext : DbContext
     {
-        public DbSet<ValueItem> ValueItems { get; set; }
+        public DbSet<ValueItemEntity> ValueItems { get; set; }
 
         public ValueItemDbContext(DbContextOptions<ValueItemDbContext> contextOptions) : base(contextOptions)
         {

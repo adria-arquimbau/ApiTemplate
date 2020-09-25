@@ -6,11 +6,11 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItems
     public class GetValueItemsQueryResponse
     {
 
-        public GetValueItemsQueryResponse(IReadOnlyCollection<ValueItem> items)
+        public GetValueItemsQueryResponse(IReadOnlyCollection<ValueItemEntity> items)
         {
             Items = items;
         }
 
-        public IReadOnlyCollection<ValueItem> Items { get; }
+        public IReadOnlyCollection<ValueItemEntity> Items { get; }
     }
 }

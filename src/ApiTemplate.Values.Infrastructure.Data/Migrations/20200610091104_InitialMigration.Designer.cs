@@ -21,7 +21,7 @@ namespace ApiTemplate.Values.Infrastructure.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Voxel.ApiTemplate.Values.Domain.Entities.ValueItem", b =>
+            modelBuilder.Entity("Voxel.ApiTemplate.Values.Domain.Entities.ValueItemEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

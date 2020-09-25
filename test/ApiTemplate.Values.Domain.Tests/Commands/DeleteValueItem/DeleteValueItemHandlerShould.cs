@@ -22,7 +22,7 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.DeleteValueItem
         [Theory, AutoData]    
         public async Task DeleteAItemWithASpecificKey(string key)
         {
-            var valueItem = new ValueItem(key, 12345);
+            var valueItem = new ValueItemEntity(key, 12345);
 
             var deleteRequest = new DeleteValueItemRequest(key);
             var handler = new DeleteValueItemNotification(_valueItemRepository);

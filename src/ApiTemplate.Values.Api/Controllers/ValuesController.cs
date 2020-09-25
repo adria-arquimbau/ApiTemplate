@@ -30,7 +30,7 @@ namespace ApiTemplate.Values.Api.Controllers
 
             var response = await _mediator.Send(request);
 
-            return Ok(response.ValueItem);
+            return Ok(response.ValueItemEntity);
         }
 
 
@@ -78,7 +78,11 @@ namespace ApiTemplate.Values.Api.Controllers
 
             var response = await _mediator.Send(request);
 
-            return Ok(response);
+            return Ok(new ValueItemResponse
+            {
+                Value = response.Value,
+                Key = response.Key
+            });
         }
     }
 }
