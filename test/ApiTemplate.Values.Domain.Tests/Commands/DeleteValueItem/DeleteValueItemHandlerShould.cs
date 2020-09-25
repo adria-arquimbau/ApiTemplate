@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Repositories;
@@ -26,7 +25,7 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.DeleteValueItem
 
              await handler.Handle(deleteRequest, CancellationToken.None);
 
-            _valueItemRepository.Received(1).Delete(key);
+            await _valueItemRepository.Received(1).Delete(key);
         }
     }
 }

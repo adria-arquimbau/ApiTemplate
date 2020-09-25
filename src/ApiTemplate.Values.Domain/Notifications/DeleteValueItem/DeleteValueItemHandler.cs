@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
@@ -17,7 +16,7 @@ namespace ApiTemplate.Values.Domain.Notifications.DeleteValueItem
 
         public async Task Handle(DeleteValueItemRequest notification, CancellationToken cancellationToken)
         {
-            _valueItemRepository.Delete(notification.Key);
+            await _valueItemRepository.Delete(notification.Key);
         }
     }
 }

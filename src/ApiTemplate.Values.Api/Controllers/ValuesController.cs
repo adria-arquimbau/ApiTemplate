@@ -48,7 +48,7 @@ namespace ApiTemplate.Values.Api.Controllers
         public async Task<IActionResult> Delete(string key)
         {
             var request = new DeleteValueItemRequest(key);
-            var response = await mediator.Send(request);
+            await mediator.Publish(request);
             return Ok();  
         }
 

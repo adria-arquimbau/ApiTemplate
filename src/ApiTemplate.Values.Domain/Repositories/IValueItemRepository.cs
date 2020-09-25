@@ -9,8 +9,8 @@ namespace ApiTemplate.Values.Domain.Repositories
     {
         Task<Option<ValueItem>> Get(string key);
         Task<IReadOnlyCollection<ValueItem>> Get();
-        void Create(ValueItem item);
-        void Delete(string key);
+        Task Create(ValueItem item);
+        Task Delete(string key);
     }
 }
-    
+        

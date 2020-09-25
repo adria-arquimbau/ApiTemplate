@@ -23,7 +23,7 @@ namespace ApiTemplate.Values.Domain.Commands.CreateValueItem
         {
             var item = new ValueItem(request.Key, request.Value);
 
-            valueItemRepository.Create(item);
+            await valueItemRepository.Create(item);
             
            return item;
         }
