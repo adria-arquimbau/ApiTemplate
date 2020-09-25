@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
 
@@ -23,7 +23,7 @@ namespace ApiTemplate.Values.Domain.Notifications.DeleteValueItem
             {
                 await _valueItemRepository.Delete(value);
 
-            }, () => throw new NotImplementedException());
+            }, () => throw new ValueItemNotFound());
         }
     }
 }   
