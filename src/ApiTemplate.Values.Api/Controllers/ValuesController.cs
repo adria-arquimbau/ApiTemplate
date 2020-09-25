@@ -51,10 +51,10 @@ namespace ApiTemplate.Values.Api.Controllers
             return Ok();  
         }
 
-        [HttpPost("{key}")]
-        public async Task<IActionResult> Post(string key)
+        [HttpPost("{value}/key/{key}/")]
+        public async Task<IActionResult> Post(string key, int value)
         {
-            var request = new CreateValueItemRequest(key);
+            var request = new CreateValueItemRequest(key, value);
             var valueItem = await _mediator.Send(request);
             return Ok(valueItem);
         }

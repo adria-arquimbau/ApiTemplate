@@ -19,7 +19,7 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 
         public async Task<ValueItem> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
         {
-            var item = new ValueItem(request.Key, 123);
+            var item = new ValueItem(request.Key, request.Value);
 
             await _valueItemRepository.Create(item);
             

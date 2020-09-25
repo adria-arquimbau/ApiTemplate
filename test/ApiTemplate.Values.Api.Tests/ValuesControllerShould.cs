@@ -41,7 +41,7 @@ namespace ApiTemplate.Values.Api.Tests
             "When we ask for that item through the API"
                 .x(async () =>
                 {
-                    response = await _client.PostAsync($"api/v1.0/values/{key}", null);
+                    response = await _client.PostAsync($"api/v1.0/values/{value}/key/{key}", null);
                 });
 
             "Then the response was successful"
@@ -58,7 +58,7 @@ namespace ApiTemplate.Values.Api.Tests
                     var result = JsonConvert.DeserializeObject<ValueItem>(json);
 
                     result.Key.Should().Be(key);
-                    result.Value.Should().Be(123);
+                    result.Value.Should().Be(value);
                 });
         }
 
