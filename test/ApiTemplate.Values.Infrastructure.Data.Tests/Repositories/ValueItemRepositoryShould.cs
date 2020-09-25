@@ -25,9 +25,11 @@ namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories
         {
             await _testContext.RespawnDb();
 
-            await _valueItemRepository.Create(new ValueItem(key, 12345));
+            var valueItem = new ValueItem(key, 12345);
 
-            await _valueItemRepository.Delete(key);
+            await _valueItemRepository.Create(valueItem);
+
+            await _valueItemRepository.Delete(valueItem);
 
             var result = await _valueItemRepository.Get(key);
 

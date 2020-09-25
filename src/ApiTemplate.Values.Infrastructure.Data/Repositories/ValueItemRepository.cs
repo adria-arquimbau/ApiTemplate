@@ -34,11 +34,9 @@ namespace ApiTemplate.Values.Infrastructure.Data.Repositories
             await _valueItemDbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(string key)
-        {   
-            var item = await _valueItemDbContext.ValueItems.FirstOrDefaultAsync(i => i.Key == key);
-
-            _valueItemDbContext.ValueItems.Remove(item);
+        public async Task Delete(ValueItem valueItem)
+        {
+            _valueItemDbContext.ValueItems.Remove(valueItem);
             await _valueItemDbContext.SaveChangesAsync();
         }
     }

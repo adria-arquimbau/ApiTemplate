@@ -1,9 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using AutoFixture.Xunit2;
 using NSubstitute;
+using Optional;
 using Xunit;
 
 namespace ApiTemplate.Values.Domain.Tests.Commands.DeleteValueItem
@@ -20,12 +22,17 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.DeleteValueItem
         [Theory, AutoData]    
         public async Task DeleteAItemWithASpecificKey(string key)
         {
+            var valueItem = new ValueItem(key, 12345);
+
             var deleteRequest = new DeleteValueItemRequest(key);
-            var handler = new DeleteValueItemHandler(_valueItemRepository);
+            var handler = new DeleteValueItemNotification(_valueItemRepository);
 
-             await handler.Handle(deleteRequest, CancellationToken.None);
+            _valueItemRepository.Get(key).Returns(Option.Some(valueItem));
 
-            await _valueItemRepository.Received(1).Delete(key);
+            await handler.Handle(deleteRequest, CancellationToken.None);
+
+            await _valueItemRepository.Received(1).Get(key);
+            await _valueItemRepository.Received(1).Delete(valueItem);
         }
     }
 }
