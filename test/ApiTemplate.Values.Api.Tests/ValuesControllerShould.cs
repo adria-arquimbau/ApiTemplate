@@ -25,7 +25,42 @@ namespace ApiTemplate.Values.Api.Tests
             {   
                 AllowAutoRedirect = false
             });
-        }   
+        }
+
+        [Scenario, AutoData]
+        public void CreateAValueItemGivenAKey(string key, int value)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+
+            "Deleting all items on the data base"
+                .x(async () =>
+                {
+                    await _factory.RespawnDbContext();
+                });
+
+            "When we ask for that item through the API"
+                .x(async () =>
+                {
+                    response = await _client.PostAsync($"api/v1.0/values/{key}", null);
+                });
+
+            "Then the response was successful"
+                .x(async () =>
+                {
+                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                });
+
+            "Then the item is returned with the right information"
+                .x(async () =>
+                {
+                    response.EnsureSuccessStatusCode();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ValueItem>(json);
+
+                    result.Key.Should().Be(key);
+                    result.Value.Should().Be(123);
+                });
+        }
 
         [Scenario, AutoData]
         public void GetValuesWithKey(string key, int value)

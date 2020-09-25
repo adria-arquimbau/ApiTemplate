@@ -10,20 +10,18 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
     public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, ValueItem>
     {
-        private readonly IValueItemRepository valueItemRepository;
-        private readonly ILogger<GetValueItemHandler> logger;
+        private readonly IValueItemRepository _valueItemRepository;
 
-        public CreateValueItemHandler(IValueItemRepository valueItemRepository, ILogger<GetValueItemHandler> logger)
+        public CreateValueItemHandler(IValueItemRepository valueItemRepository)
         {
-            this.valueItemRepository = valueItemRepository;
-            this.logger = logger;
-        }
+            _valueItemRepository = valueItemRepository;
+        }   
 
         public async Task<ValueItem> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
         {
-            var item = new ValueItem(request.Key, request.Value);
+            var item = new ValueItem(request.Key, 123);
 
-            await valueItemRepository.Create(item);
+            await _valueItemRepository.Create(item);
             
            return item;
         }

@@ -15,19 +15,19 @@ namespace ApiTemplate.Values.Api.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class ValuesController : Controller
     {
-        private readonly IMediator mediator;
+        private readonly IMediator _mediator;
 
         public ValuesController(IMediator mediator)
         {
-            this.mediator = mediator;
-        }
+            this._mediator = mediator;
+        }   
 
         [HttpGet("{key}")]
         public async Task<IActionResult> Get(string key)
         {
             var request = new GetValueItemRequest(key);
 
-            var response = await mediator.Send(request);
+            var response = await _mediator.Send(request);
 
             return Ok(response.ValueItem);
         }
@@ -38,7 +38,7 @@ namespace ApiTemplate.Values.Api.Controllers
         {
             var request = new GetValueItemsQueryRequest();
 
-            var response = await mediator.Send(request);
+            var response = await _mediator.Send(request);
 
             return Ok(response.Items);
         }
@@ -47,15 +47,15 @@ namespace ApiTemplate.Values.Api.Controllers
         public async Task<IActionResult> Delete(string key)
         {
             var request = new DeleteValueItemRequest(key);
-            await mediator.Publish(request);
+            await _mediator.Publish(request);
             return Ok();  
         }
 
-        [HttpPost()]
-        public async Task<IActionResult> Post(ValueItem item)
+        [HttpPost("{key}")]
+        public async Task<IActionResult> Post(string key)
         {
-            var request = new CreateValueItemRequest(item.Key, item.Value);
-            var valueItem = await mediator.Send(request);
+            var request = new CreateValueItemRequest(key);
+            var valueItem = await _mediator.Send(request);
             return Ok(valueItem);
         }
 

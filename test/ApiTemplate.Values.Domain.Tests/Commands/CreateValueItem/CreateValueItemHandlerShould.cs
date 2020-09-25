@@ -22,11 +22,12 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
             
             var item = new ValueItem(key, value);
             
-            var handler = new CreateValueItemHandler(valueItemRepository, logger);
+            var handler = new CreateValueItemHandler(valueItemRepository);
 
-            var response = await handler.Handle(new CreateValueItemRequest(key, value), CancellationToken.None);
+            var response = await handler.Handle(new CreateValueItemRequest(key), CancellationToken.None);
 
             A.CallTo(() => valueItemRepository.Create(item)).MustHaveHappenedOnceExactly();
         }
     }
 }
+    

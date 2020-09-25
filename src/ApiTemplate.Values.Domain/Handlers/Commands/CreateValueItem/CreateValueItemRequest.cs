@@ -6,12 +6,10 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
     public class CreateValueItemRequest : IRequest<ValueItem>
     {
         public readonly string Key;
-        public readonly int Value;
 
-        public CreateValueItemRequest(string key, int value)
+        public CreateValueItemRequest(string key)
         {
             Key = key;
-            Value = value;
         }
     }
 }
