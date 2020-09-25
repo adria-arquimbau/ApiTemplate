@@ -4,7 +4,7 @@ using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
 
-namespace ApiTemplate.Values.Domain.Notifications.DeleteValueItem
+namespace ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem
 {
     public class DeleteValueItemNotification : INotificationHandler<DeleteValueItemRequest>
     {

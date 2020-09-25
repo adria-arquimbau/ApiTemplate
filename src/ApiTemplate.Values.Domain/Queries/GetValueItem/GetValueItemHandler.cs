@@ -22,9 +22,9 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItem
             logger.LogInformation("Test logging {@Request}", request); // this should go in a behavior
             var valueItem = await valueItemRepository.Get(request.Key);
 
-            return valueItem.Match( valueItem =>
+            return valueItem.Match( item =>
             {
-                return new GetValueItemResponse(valueItem);
+                return new GetValueItemResponse(item);
 
             }, () => throw new ValueItemNotFound());
 

@@ -1,7 +1,7 @@
-﻿using MediatR;
-using ApiTemplate.Values.Domain.Entities;
+﻿using ApiTemplate.Values.Domain.Entities;
+using MediatR;
 
-namespace ApiTemplate.Values.Domain.Commands.CreateValueItem
+namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
     public class CreateValueItemRequest : IRequest<ValueItem>
     {

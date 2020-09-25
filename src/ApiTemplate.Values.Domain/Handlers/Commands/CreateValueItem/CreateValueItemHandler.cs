@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using ApiTemplate.Values.Domain.Entities;
 
-namespace ApiTemplate.Values.Domain.Commands.CreateValueItem
+namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
     public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, ValueItem>
     {

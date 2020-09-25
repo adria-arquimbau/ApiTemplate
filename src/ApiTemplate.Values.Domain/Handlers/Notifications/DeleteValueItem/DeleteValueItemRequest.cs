@@ -1,7 +1,6 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
-namespace ApiTemplate.Values.Domain.Notifications.DeleteValueItem
+namespace ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem
 {
     public class DeleteValueItemRequest : INotification
     {
