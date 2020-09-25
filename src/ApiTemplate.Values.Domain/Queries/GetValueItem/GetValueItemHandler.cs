@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,12 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItem
             logger.LogInformation("Test logging {@Request}", request); // this should go in a behavior
             var valueItem = await valueItemRepository.Get(request.Key);
 
-            return new GetValueItemResponse(valueItem);
+            return valueItem.Match( valueItem =>
+            {
+                return new GetValueItemResponse(valueItem);
+
+            }, () => throw new ValueItemNotFound());
+
         }
     }
 }

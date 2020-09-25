@@ -102,7 +102,10 @@ namespace ApiTemplate.Values.Api.Tests
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             "Given an item is not in the database"
-                .x(() => { });
+                .x(async () =>
+                {
+                    await _factory.RespawnDbContext();
+                });
 
             "When we ask for that item through the API"
                 .x(async () =>
@@ -114,10 +117,7 @@ namespace ApiTemplate.Values.Api.Tests
                 .x(async () =>
                 {
                     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-                    
-                    var result = await response.Content.ReadAsStringAsync();
-                    result.Should().Be(key);
-                 });
+                });
         }
 
         [Scenario, AutoData]

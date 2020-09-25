@@ -27,7 +27,7 @@ namespace ApiTemplate.Values.Domain.Tests.Queries.GetValueItem
 
             var response = await handler.Handle(new GetValueItemRequest(key), CancellationToken.None);
 
-            response.ValueItem.Should().BeEquivalentTo(Option.Some(new ValueItem(key, value)));
+            response.ValueItem.Should().BeEquivalentTo(new ValueItem(key, value));
             A.CallTo(() => valueItemRepository.Get(key)).MustHaveHappenedOnceExactly();
         }
     }

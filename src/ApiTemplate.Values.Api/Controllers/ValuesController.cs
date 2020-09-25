@@ -30,7 +30,7 @@ namespace ApiTemplate.Values.Api.Controllers
 
             var response = await mediator.Send(request);
 
-            return response.ValueItem.Match(r => (IActionResult)Ok(new ValueItem(r)), () => (IActionResult)NotFound(key));
+            return Ok(response.ValueItem);
         }
 
 

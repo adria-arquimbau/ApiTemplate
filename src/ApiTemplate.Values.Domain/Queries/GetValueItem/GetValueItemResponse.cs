@@ -5,9 +5,9 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItem
 {
     public class GetValueItemResponse
     {
-        public Option<ValueItem> ValueItem { get; }
+        public ValueItem ValueItem { get; }
 
-        public GetValueItemResponse(Option<ValueItem> valueItem)
+        public GetValueItemResponse(ValueItem valueItem)
         {
             ValueItem = valueItem;
         }

@@ -3,8 +3,6 @@ using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Infrastructure.Data.Repositories;
 using AutoFixture.Xunit2;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Optional;
 using Xunit;
 
 namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories

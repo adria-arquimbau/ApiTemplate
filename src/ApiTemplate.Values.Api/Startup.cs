@@ -92,7 +92,7 @@ namespace ApiTemplate.Values.Api
             // This will map NotImplementedException to the 501 Not Implemented status code.
             options.Map<NotImplementedException>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status501NotImplemented));
 
-            // This will map NotImplementedException to the 501 Not Implemented status code.
+            // This will map ValueItemNotFound to the 404 Not Found status code.
             options.Map<ValueItemNotFound>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status404NotFound));
 
             // This will map HttpRequestException to the 503 Service Unavailable status code.
@@ -112,7 +112,5 @@ namespace ApiTemplate.Values.Api
             // If an exception other than NotImplementedException and HttpRequestException is thrown, this will handle it.
             options.Map<Exception>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status500InternalServerError));
         }
-
-
     }
 }
