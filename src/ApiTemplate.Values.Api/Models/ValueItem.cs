@@ -8,10 +8,10 @@
         // Needed for deserialization
         public ValueItem() { }
 
-        public ValueItem(ApiTemplate.Values.Domain.Entities.ValueItem item)
+        public ValueItem(ApiTemplate.Values.Domain.Entities.ValueItemEntity itemEntity)
         {
-            Key = item.Key;
-            Value = item.Value;
+            Key = itemEntity.Key;
+            Value = itemEntity.Value;
         }
     }
 }

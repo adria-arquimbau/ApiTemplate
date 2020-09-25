@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
-    public class CreateValueItemRequest : IRequest<ValueItem>
+    public class CreateValueItemRequest : IRequest<CreateValueItemResponse>
     {
         public readonly string Key;
         public readonly int Value;

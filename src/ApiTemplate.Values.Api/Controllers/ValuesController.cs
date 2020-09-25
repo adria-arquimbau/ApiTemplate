@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem;
+using ApiTemplate.Values.Domain.Handlers.Commands.UpdateValueItem;
 using ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItems;
@@ -29,7 +30,7 @@ namespace ApiTemplate.Values.Api.Controllers
 
             var response = await _mediator.Send(request);
 
-            return Ok(response.ValueItem);
+            return Ok(response.ValueItemEntity);
         }
 
 
@@ -56,15 +57,32 @@ namespace ApiTemplate.Values.Api.Controllers
         {
             var request = new CreateValueItemRequest(key, value);
             var valueItem = await _mediator.Send(request);
-            return Ok(valueItem);
+            return Ok(new ValueItemResponse
+            {
+                Key = valueItem.Key,
+                Value = valueItem.Value
+            });
         }
 
         [HttpPut("{key}")]
-        public async Task<IActionResult> Put(string key, ValueItem item)
+        public async Task<IActionResult> Put(string key, [FromBody]ValueItemRequest item)
         {
-            if (key.Length > 5) throw new KeyTooLongException("The key is too long.", key, key.Length);
+            if (key.Length < 5) throw new KeyTooShortException("The key is too short.", key, key.Length);
 
-            return Ok(new {key, item.Value});
+            var request = new UpdateValueItemCommandRequest
+            {
+                Identifier = key,
+                Key = item.Key,
+                Value = item.Value
+            };
+
+            var response = await _mediator.Send(request);
+
+            return Ok(new ValueItemResponse
+            {
+                Value = response.Value,
+                Key = response.Key
+            });
         }
     }
 }

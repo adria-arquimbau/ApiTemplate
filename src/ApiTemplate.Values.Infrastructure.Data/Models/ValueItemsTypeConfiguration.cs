@@ -5,13 +5,13 @@ using ApiTemplate.Values.Domain.Entities;
 
 namespace ApiTemplate.Values.Infrastructure.Data.Models
 {
-    internal class ValueItemTypeConfiguration : IEntityTypeConfiguration<ValueItem>
+    internal class ValueItemTypeConfiguration : IEntityTypeConfiguration<ValueItemEntity>
     {
-        public void Configure(EntityTypeBuilder<ValueItem> configuration)
+        public void Configure(EntityTypeBuilder<ValueItemEntity> configuration)
         {
             configuration.ToTable("ValueItems");
             configuration.HasKey(property => property.Id);
-            configuration.HasData(new ValueItem("asdf", 42) {Id = new Guid("10000000-0000-0000-0000-000000000000")});
+            configuration.HasData(new ValueItemEntity("asdf", 42) {Id = new Guid("10000000-0000-0000-0000-000000000000")});
         }
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Infrastructure.Data.Repositories;
 using AutoFixture.Xunit2;
 using FluentAssertions;
+using Optional;
 using Xunit;
 
 namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories
@@ -23,12 +25,39 @@ namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories
         {
             await _testContext.RespawnDb();
 
-            var valueItem = new ValueItem(key, 12345);
+            var valueItem = new ValueItemEntity(key, 12345);
 
             await _valueItemRepository.Create(valueItem);
 
             await _valueItemRepository.Delete(valueItem);
 
+            var result = await _valueItemRepository.Get(key);
+
+            result.HasValue.Should().BeFalse();
+        }
+
+        [Theory, AutoData]
+        public async Task UpdateValueItem(string key, int value, string updatedKey, int updatedValue)
+        {
+            await _testContext.RespawnDb();
+
+            await _valueItemRepository.Create(new ValueItemEntity(key, value));
+
+            var valueItem = await _valueItemRepository.Get(key);
+
+            await valueItem.Match(async v =>
+            {
+                v.Key = updatedKey;
+                v.Value = updatedValue;
+
+                await _valueItemRepository.Update(v);
+
+            }, () =>
+            {   
+                throw new NotImplementedException();
+            });
+
+            
             var result = await _valueItemRepository.Get(key);
 
             result.HasValue.Should().BeFalse();

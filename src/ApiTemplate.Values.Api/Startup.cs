@@ -97,7 +97,7 @@ namespace ApiTemplate.Values.Api
             // This will map HttpRequestException to the 503 Service Unavailable status code.
             options.Map<HttpRequestException>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status503ServiceUnavailable));
 
-            options.Map<KeyTooLongException>(ex => new KeyTooLongProblemDetails
+            options.Map<KeyTooShortException>(ex => new KeyTooLongProblemDetails
             {
                 Title = ex.Message,
                 Detail = ex.Key,
