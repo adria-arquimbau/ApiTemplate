@@ -1,10 +1,12 @@
-# Voxel.ApiTemplate
+# ApiTemplate
 
-Este proyecto contiene un template para crear APIs en el equipo de procurement. No es, ni mucho menos, un trabajo finalizado y es simplemente una primera versión para iniciar una discusión. Tampoco pretende ser, cuando llegue a su estado final, un template de obligado uso, sinó que se espera que sea una guia de referencia de buenas prácticas.
+Proyecto Base editado del Voxel.ApiTemplate, adaptado y mejorado en lo possible por Adrià Arquimbau.
+
+Este proyecto contiene un template para crear APIs. No es, ni mucho menos, un trabajo finalizado y es simplemente una primera versión para iniciar una discusión. Tampoco pretende ser, cuando llegue a su estado final, un template de obligado uso, sinó que se espera que sea una guia de referencia de buenas prácticas.
 
 ## Partes de la solución
 
-La solución está desarrollada como se desarrollan en general las APIs en Voxel: una api pública que hace llamadas HTTP a una api privada que es la que tiene toda la lógica de negocio. Esta manera de organizar las APIs es, obviamente, también discutible ya que añade una latencia a cambio de un poco más de seguridad. 
+La solución está desarrollada como se desarrollan en general las APIs de Voxel: una api pública que hace llamadas HTTP a una api privada que es la que tiene toda la lógica de negocio. Esta manera de organizar las APIs es, obviamente, también discutible ya que añade una latencia a cambio de un poco más de seguridad. 
 
 La API pública es muy sencilla y no tiene ninguna organización por dominio o capas. Los controladores llaman directamente a los endpoints de la API privada.
 
@@ -143,7 +145,7 @@ curl --location --request PUT 'http://localhost:58857/api/v1.0/values/asdfasdfas
 
 To generate a new migration we use the following command:
 
-dotnet ef migrations add nameOfMigration -s ../Voxel.ApiTemplate.Values.Api
+dotnet ef migrations add nameOfMigration -s ../ApiTemplate.Values.Api
 
 This creates a new migration with the name nameOfMigration. The -s points to the place the dbContext is instanced.
 
@@ -151,6 +153,6 @@ This creates a new migration with the name nameOfMigration. The -s points to the
 
 To update a database we use the following command
 
-dotnet ef database update -s ../Voxel.ApiTemplate.Values.Api
+dotnet ef database update -s ../ApiTemplate.Values.Api
 
 This updates the database the startup is currently pointing to. It will update the database to the last migration available
