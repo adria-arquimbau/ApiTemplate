@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
-    public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, ValueItem>
+    public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, CreateValueItemResponse>
     {
         private readonly IValueItemRepository _valueItemRepository;
         private readonly INumbersProxy _numbersProxy;
@@ -21,7 +21,7 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
             _numbersProxy = numbersProxy;
         }   
 
-        public async Task<ValueItem> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
+        public async Task<CreateValueItemResponse> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
         {
             var valueInt = request.Value;
 
@@ -40,7 +40,11 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 
             await _valueItemRepository.Create(item);
             
-           return item;
+           return new CreateValueItemResponse
+           {
+               Key = item.Key,
+               Value = item.Value
+           };
         }
     }
 }

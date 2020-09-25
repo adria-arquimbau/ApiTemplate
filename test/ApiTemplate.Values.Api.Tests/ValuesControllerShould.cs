@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using ApiTemplate.Values.Domain.Entities;
+using System.Text;
+using ApiTemplate.Values.Api.Models;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Xbehave;
 using Xunit;
+using ValueItem = ApiTemplate.Values.Domain.Entities.ValueItem;
 
 namespace ApiTemplate.Values.Api.Tests
 {
@@ -55,7 +57,7 @@ namespace ApiTemplate.Values.Api.Tests
                 {
                     response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItem>(json);
+                    var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
 
                     result.Key.Should().Be(key);
                     result.Value.Should().Be(value);
@@ -233,7 +235,7 @@ namespace ApiTemplate.Values.Api.Tests
         }
 
         [Scenario, AutoData]
-        public void SayValueItemNotFoundIfYouTryToDeleteAnUnexistingValueItem(string key, int value)
+        public void SayValueItemNotFoundIfYouTryToDeleteAnUnexistingValueItem(string key)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
@@ -255,5 +257,47 @@ namespace ApiTemplate.Values.Api.Tests
                     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
                 });
         }
+
+        [Scenario, AutoData]
+        public void UpdateAValueItemGivenAKey(string key, int value)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+            var request = new ValueItemRequest
+            {
+                Key = key,
+                Value = value
+            };
+
+            "Deleting all items on the data base"
+                .x(async () =>
+                {
+                    await _factory.RespawnDbContext();
+                });
+
+            "When we ask to update an existing item"
+                .x(async () =>
+                {
+                    response = await _client.PutAsync($"api/v1.0/values/{key}", new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8,
+                        "application/json"));
+                });
+
+            "Then the response was successful"
+                .x(async () =>
+                {
+                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                });
+
+            "Then the item is returned with the right information"
+                .x(async () =>
+                {
+                    response.EnsureSuccessStatusCode();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ValueItem>(json);
+
+                    result.Key.Should().Be(key);
+                    result.Value.Should().Be(value);
+                });
+        }
     }
-}
+}       
+    

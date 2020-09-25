@@ -39,5 +39,10 @@ namespace ApiTemplate.Values.Infrastructure.Data.Repositories
             _valueItemDbContext.ValueItems.Remove(valueItem);
             await _valueItemDbContext.SaveChangesAsync();
         }
+
+        public Task Update(ValueItem valueItem)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

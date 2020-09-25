@@ -11,6 +11,7 @@ namespace ApiTemplate.Values.Domain.Repositories
         Task<IReadOnlyCollection<ValueItem>> Get();
         Task Create(ValueItem item);
         Task Delete(ValueItem valueItem);
+        Task Update(ValueItem valueItem);
     }
 }
             
