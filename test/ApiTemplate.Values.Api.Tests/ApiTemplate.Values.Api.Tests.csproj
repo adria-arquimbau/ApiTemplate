@@ -30,8 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ApiTemplate.Values.Api\ApiTemplate.Values.Api.csproj" />
     <ProjectReference Include="..\..\src\ApiTemplate.Values.Infrastructure.Data\ApiTemplate.Values.Infrastructure.Data.csproj" />
-    <ProjectReference Include="..\..\src\Voxel.ApiTemplate.Values.Api\ApiTemplate.Values.Api.csproj" />
-    <ProjectReference Include="..\..\src\Voxel.ApiTemplate.Values.Infrastructure.Data\Voxel.ApiTemplate.Values.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>

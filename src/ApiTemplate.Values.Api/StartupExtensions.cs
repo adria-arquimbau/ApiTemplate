@@ -4,9 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
-using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -94,22 +92,6 @@ namespace ApiTemplate.Values.Api
             // No endpoint, so not a health check endpoint
             return false;
         }
-
-        /// <summary>
-        /// Nivel por defecto según github, pero si es healthcheck se cambia a verbose
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <param name="_"></param>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public static LogEventLevel CustomGetLevel(HttpContext ctx, double _, Exception ex) =>
-               ex != null
-                    ? LogEventLevel.Error
-                    : ctx.Response.StatusCode > 499
-                        ? LogEventLevel.Error
-                        : IsHealthCheckEndpoint(ctx) // Not an error, check if it was a health check
-                            ? LogEventLevel.Debug   // Was a health check, use Verbose
-                            : LogEventLevel.Information;
 
         public static Task WriteResponse(HttpContext context, HealthReport result)
         {

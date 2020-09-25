@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
-using ApiTemplate.Values.Domain.Notifications.DeleteValueItem;
+using ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using AutoFixture.Xunit2;
 using NSubstitute;

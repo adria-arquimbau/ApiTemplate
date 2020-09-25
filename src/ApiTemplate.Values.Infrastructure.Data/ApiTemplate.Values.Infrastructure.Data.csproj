@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiTemplate.Values.Domain\ApiTemplate.Values.Domain.csproj" />
-    <ProjectReference Include="..\Voxel.ApiTemplate.Values.Domain\Voxel.ApiTemplate.Values.Domain.csproj" />
   </ItemGroup>
 
 </Project>

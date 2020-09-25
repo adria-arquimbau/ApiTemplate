@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiTemplate.Values.Infrastructure.CrossCutting\ApiTemplate.Values.Infrastructure.CrossCutting.csproj" />
-    <ProjectReference Include="..\Voxel.ApiTemplate.Values.Infrastructure.CrossCutting\Voxel.ApiTemplate.Values.Infrastructure.CrossCutting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

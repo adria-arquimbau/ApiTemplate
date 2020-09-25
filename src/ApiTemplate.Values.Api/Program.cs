@@ -3,9 +3,6 @@ using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.Graylog;
 
 namespace ApiTemplate.Values.Api
 {

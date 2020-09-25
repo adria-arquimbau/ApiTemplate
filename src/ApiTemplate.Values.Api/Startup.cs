@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Infrastructure.CrossCutting.Logging;
@@ -61,7 +60,6 @@ namespace ApiTemplate.Values.Api
             app.UseStaticFiles();
 
             app.UseMiddleware<LogContextMiddleware>(); // This should go in this order
-            app.UseSerilogRequestLogging(opts => opts.GetLevel = StartupExtensions.CustomGetLevel); // do not log healthcheck
 
             app.UseProblemDetails();
             app.UseRouting();

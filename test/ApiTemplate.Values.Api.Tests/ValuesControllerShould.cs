@@ -6,7 +6,6 @@ using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
-using Voxel.Procurement.Values.Api.Tests;
 using Xbehave;
 using Xunit;
 

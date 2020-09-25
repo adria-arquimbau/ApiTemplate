@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ApiTemplate.Values.Api.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ApiTemplate.Values.Domain.Commands.CreateValueItem;
 using ApiTemplate.Values.Domain.Exceptions;
-using ApiTemplate.Values.Domain.Notifications.DeleteValueItem;
+using ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem;
+using ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItems;
 

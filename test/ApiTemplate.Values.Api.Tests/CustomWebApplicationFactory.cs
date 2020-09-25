@@ -10,18 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Respawn;
-using Serilog;
 
-namespace Voxel.Procurement.Values.Api.Tests
+namespace ApiTemplate.Values.Api.Tests
 {
     // https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-3.1
     public class CustomWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
     {
-        protected override IWebHostBuilder CreateWebHostBuilder()
+        protected override IWebHostBuilder CreateWebHostBuilder()   
         {
             return WebHost.CreateDefaultBuilder()
-                .UseSerilog((hostingContext, loggerConfiguration) => { })
                 .UseStartup<TStartup>();
         }
         // move to configuration
