@@ -35,6 +35,7 @@ namespace ApiTemplate.Values.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(GetValueItemHandler).GetTypeInfo().Assembly);
+            services.AddProxies(Configuration);
             services.AddApiHealthChecks();
             services.AddRepositories();
             services.AddPipelineBehaviors();

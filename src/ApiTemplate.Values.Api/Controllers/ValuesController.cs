@@ -51,7 +51,7 @@ namespace ApiTemplate.Values.Api.Controllers
             return Ok();  
         }
 
-        [HttpPost("{value}/key/{key}/")]
+        [HttpPost("{key}/{value}/")]
         public async Task<IActionResult> Post(string key, int value)
         {
             var request = new CreateValueItemRequest(key, value);

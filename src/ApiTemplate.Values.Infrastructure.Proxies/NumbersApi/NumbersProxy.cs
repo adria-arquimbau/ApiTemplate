@@ -18,7 +18,7 @@ namespace ApiTemplate.Values.Infrastructure.Proxies.NumbersApi
             _httpClient = httpClient;
         }
 
-        public async Task<Option<ValueItem>> Get()
+        public async Task<Option<int>> Get()
         {
             var response = await SendAsync(HttpMethod.Get, $"api/v1/number");
 
@@ -29,7 +29,7 @@ namespace ApiTemplate.Values.Infrastructure.Proxies.NumbersApi
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<ValueItem>(json);
+            var result = JsonConvert.DeserializeObject<int>(json);
 
             return Option.Some(result);
         }

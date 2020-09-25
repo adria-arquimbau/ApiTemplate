@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,15 +7,23 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Api.Behaviors;
+using ApiTemplate.Values.Domain.Proxies;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using ApiTemplate.Values.Infrastructure.CrossCutting.HealthCheck;
 using ApiTemplate.Values.Infrastructure.CrossCutting.Swagger;
 using ApiTemplate.Values.Infrastructure.Data.Repositories;
+using ApiTemplate.Values.Infrastructure.Proxies.NumbersApi;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Contrib.WaitAndRetry;
+using Polly.Extensions.Http;
 
 namespace ApiTemplate.Values.Api
 {
@@ -42,6 +51,35 @@ namespace ApiTemplate.Values.Api
                 .AddHealthChecks()
                 .AddCheck<WhatchdogFileHealthCheck>("Watchdog File Check", HealthStatus.Unhealthy,
                     new[] { "watchdog", "file" });
+        }
+
+        public static void AddProxies(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClientsWithRetryPolicy<INumbersProxy, NumbersProxy>(configuration.GetSection("ExternalServices:NumbersApi").Value);
+        }
+        private static void AddHttpClientsWithRetryPolicy<IT, T>(this IServiceCollection services, string url)
+            where T : class, IT
+            where IT : class
+        {
+            services.AddHttpClient<IT, T>(client =>
+                {
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Add("x-api-version", "1");
+                })
+                .AddPolicyHandler(GetHttpClientRetryPolicy<T>());
+        }
+
+        private static Func<IServiceProvider, HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> GetHttpClientRetryPolicy<T>()
+        {
+            return (policyServices, request) =>
+                HttpPolicyExtensions.HandleTransientHttpError()
+                    .WaitAndRetryAsync(Backoff.LinearBackoff(TimeSpan.FromMilliseconds(200), 5),
+                        (result, timeSpan, retryAttempt, context) =>
+                        {
+                            var logger = policyServices.GetService<ILogger<T>>();
+                            logger.LogWarning(result.Exception, "Error on HTTP Client. Delaying for {Delay} then making retry: {RetryCount} {ResponseStatusCode}", timeSpan.TotalMilliseconds, retryAttempt, result.Result?.StatusCode);
+                        }
+                    );
         }
 
         public static void AddVersioning(this IServiceCollection services)

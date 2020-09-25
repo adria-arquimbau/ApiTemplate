@@ -1,6 +1,8 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
+using ApiTemplate.Values.Domain.Proxies;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
@@ -11,15 +13,30 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
     public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, ValueItem>
     {
         private readonly IValueItemRepository _valueItemRepository;
+        private readonly INumbersProxy _numbersProxy;
 
-        public CreateValueItemHandler(IValueItemRepository valueItemRepository)
+        public CreateValueItemHandler(IValueItemRepository valueItemRepository, INumbersProxy numbersProxy)
         {
             _valueItemRepository = valueItemRepository;
+            _numbersProxy = numbersProxy;
         }   
 
         public async Task<ValueItem> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
         {
-            var item = new ValueItem(request.Key, request.Value);
+            var valueInt = request.Value;
+
+            if (request.Value == 0)
+            {
+                var value = await _numbersProxy.Get();
+                value.Match(v =>
+                {
+                    valueInt = v;
+
+                }, (() => throw new NotImplementedException()));
+                
+            }
+
+            var item = new ValueItem(request.Key, valueInt);
 
             await _valueItemRepository.Create(item);
             

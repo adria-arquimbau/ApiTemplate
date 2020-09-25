@@ -6,6 +6,6 @@ namespace ApiTemplate.Values.Domain.Proxies
 {
     public interface INumbersProxy
     {
-        Task<Option<ValueItem>> Get();
+        Task<Option<int>> Get();
     }
 }

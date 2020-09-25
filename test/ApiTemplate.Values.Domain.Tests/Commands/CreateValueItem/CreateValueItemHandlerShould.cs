@@ -6,14 +6,23 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem;
+using ApiTemplate.Values.Domain.Proxies;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
+using NSubstitute;
 using Xunit;
 
 namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
 {
     public class CreateValueItemHandlerShould
     {
+        private readonly INumbersProxy _numbersProxy;
+
+        public CreateValueItemHandlerShould()
+        {
+            _numbersProxy = Substitute.For<INumbersProxy>();
+        }
+
         [Theory, AutoData]
         public async Task CreateItemValueIntoRepository(string key, int value)
         {
@@ -22,9 +31,9 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
             
             var item = new ValueItem(key, value);
             
-            var handler = new CreateValueItemHandler(valueItemRepository);
+            var handler = new CreateValueItemHandler(valueItemRepository, _numbersProxy);
 
-            var response = await handler.Handle(new CreateValueItemRequest(key), CancellationToken.None);
+            var response = await handler.Handle(new CreateValueItemRequest(key, value), CancellationToken.None);
 
             A.CallTo(() => valueItemRepository.Create(item)).MustHaveHappenedOnceExactly();
         }
