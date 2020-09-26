@@ -52,7 +52,7 @@ namespace ApiTemplate.Values.Api.Tests
             "Then the response was successful"
                 .x(async () =>
                 {
-                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
                 });
 
             "Then the itemEntity is returned with the right information"
@@ -99,7 +99,7 @@ namespace ApiTemplate.Values.Api.Tests
             "Then the response was successful"
                 .x(async () =>
                 {
-                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
                 });
 
             "Then the itemEntity is returned with the right information"

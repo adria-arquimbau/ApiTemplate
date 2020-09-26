@@ -3,29 +3,27 @@ using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Proxies;
-using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 {
-    public class CreateValueItemHandler : IRequestHandler<CreateValueItemRequest, CreateValueItemResponse>
+    public class CreateValueItemCommandHandler : IRequestHandler<CreateValueItemCommandRequest, CreateValueItemCommandResponse>
     {
         private readonly IValueItemRepository _valueItemRepository;
         private readonly INumbersProxy _numbersProxy;
 
-        public CreateValueItemHandler(IValueItemRepository valueItemRepository, INumbersProxy numbersProxy)
+        public CreateValueItemCommandHandler(IValueItemRepository valueItemRepository, INumbersProxy numbersProxy)
         {
             _valueItemRepository = valueItemRepository;
             _numbersProxy = numbersProxy;
         }   
 
-        public async Task<CreateValueItemResponse> Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
+        public async Task<CreateValueItemCommandResponse> Handle(CreateValueItemCommandRequest commandRequest, CancellationToken cancellationToken)
         {
-            var valueInt = request.Value;
+            var valueInt = commandRequest.Value;
 
-            if (request.Value == 0)
+            if (commandRequest.Value == 0)
             {
                 var value = await _numbersProxy.Get();
                 value.Match(v =>
@@ -36,11 +34,11 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
                 
             }
 
-            var item = new ValueItemEntity(request.Key, valueInt);
+            var item = new ValueItemEntity(commandRequest.Key, valueInt);
 
             await _valueItemRepository.Create(item);
             
-           return new CreateValueItemResponse
+           return new CreateValueItemCommandResponse
            {
                Key = item.Key,
                Value = item.Value
