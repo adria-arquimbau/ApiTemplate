@@ -33,8 +33,14 @@ namespace ApiTemplate.Values.Api.Tests
         }
 
         [Scenario, AutoData]
-        public void CreateAValueItemGivenAKeyAndValue(string key, int value)
+        public void CreateAValueItemGivenAKeyAndValue()
         {
+            var valueItem = new ValueItemResponse
+            {
+                Value = 123,
+                Key = "abc"
+            };
+
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             "Deleting all items on the data base"
@@ -46,7 +52,7 @@ namespace ApiTemplate.Values.Api.Tests
             "When we ask to create the itemEntity"
                 .x(async () =>
                 {
-                    response = await _client.PostAsync($"api/v1.0/values/{key}/{value}", null);
+                    response = await _client.PostAsync($"api/v1.0/values/{valueItem.Key}/{valueItem.Value}", null);
                 });
 
             "Then the response was successful"
@@ -62,8 +68,7 @@ namespace ApiTemplate.Values.Api.Tests
                     var json = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
 
-                    result.Key.Should().Be(key);
-                    result.Value.Should().Be(value);
+                    result.Should().BeEquivalentTo(valueItem);
                 });
         }
 
