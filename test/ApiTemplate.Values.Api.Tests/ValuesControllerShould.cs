@@ -8,6 +8,9 @@ using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
+using WireMock.RequestBuilders;
+using WireMock.ResponseBuilders;
+using WireMock.Server;
 using Xbehave;
 using Xunit;
 
@@ -64,40 +67,52 @@ namespace ApiTemplate.Values.Api.Tests
                 });
         }
 
-        //[Scenario, AutoData]
-        //public void CreateAValueItemGivenAKeyAndValue0(string key)
-        //{
-        //    var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+        [Scenario, AutoData]
+        public void CreateAValueItemGivenAKeyAndValue0(string key)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-        //    "Deleting all items on the data base"
-        //        .x(async () =>
-        //        {
-        //            await _factory.RespawnDbContext();
-        //        }); 
+            var server = WireMockServer.Start(10800);
 
-        //    "When we ask to create the itemEntity"
-        //        .x(async () =>
-        //        {
-        //            response = await _client.PostAsync($"api/v1.0/values/{key}/0", null);
-        //        });
+           
 
-        //    "Then the response was successful"
-        //        .x(async () =>
-        //        {
-        //            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-        //        });
+            "Deleting all items on the data base"
+                .x(async () =>
+                {
+                    await _factory.RespawnDbContext();
+                });
 
-        //    "Then the itemEntity is returned with the right information"
-        //        .x(async () =>
-        //        {
-        //            response.EnsureSuccessStatusCode();
-        //            var json = await response.Content.ReadAsStringAsync();
-        //            var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
+            "When we ask to create the itemEntity"
+                .x(async () =>
+                {
+                    server
+                        .Given(Request
+                            .Create()
+                            .WithPath("/api/v1/number")
+                            .UsingGet())
+                        .RespondWith(Response.Create().WithSuccess());
 
-        //            result.Key.Should().Be(key);
-        //            result.Value.Should().Be(123);
-        //        });
-        //}
+                    response = await _client.PostAsync($"api/v1.0/values/{key}/0", null);
+                });
+
+            "Then the response was successful"
+                .x(async () =>
+                {
+                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                });
+
+            "Then the itemEntity is returned with the right information"
+                .x(async () =>
+                {
+                    response.EnsureSuccessStatusCode();
+                    var json = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
+
+                    result.Key.Should().Be(key);
+                    result.Value.Should().Be(123);
+                    server.Stop();
+                });
+        }
 
         [Scenario, AutoData]
         public void GetValuesWithKey(string key, int value)
