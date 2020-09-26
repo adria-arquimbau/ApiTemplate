@@ -31,9 +31,9 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
             
             var item = new ValueItemEntity(key, value);
             
-            var handler = new CreateValueItemHandler(valueItemRepository, _numbersProxy);
+            var handler = new CreateValueItemCommandHandler(valueItemRepository, _numbersProxy);
 
-            var response = await handler.Handle(new CreateValueItemRequest(key, value), CancellationToken.None);
+            var response = await handler.Handle(new CreateValueItemCommandRequest(key, value), CancellationToken.None);
 
             A.CallTo(() => valueItemRepository.Create(item)).MustHaveHappenedOnceExactly();
         }
