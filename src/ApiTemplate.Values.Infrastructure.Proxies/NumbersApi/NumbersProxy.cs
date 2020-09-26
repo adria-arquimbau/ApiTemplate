@@ -29,9 +29,14 @@ namespace ApiTemplate.Values.Infrastructure.Proxies.NumbersApi
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var result = JsonConvert.DeserializeObject<int>(json);
+            var result = JsonConvert.DeserializeObject<NumbersResponse>(json);
 
-            return Option.Some(result);
+            return Option.Some(result.Number);
         }
+    }
+
+    public class NumbersResponse
+    {
+        public int Number { get; set; }
     }
 }   

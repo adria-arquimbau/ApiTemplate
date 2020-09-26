@@ -74,8 +74,6 @@ namespace ApiTemplate.Values.Api.Tests
 
             var server = WireMockServer.Start(10800);
 
-           
-
             "Deleting all items on the data base"
                 .x(async () =>
                 {
@@ -90,7 +88,10 @@ namespace ApiTemplate.Values.Api.Tests
                             .Create()
                             .WithPath("/api/v1/number")
                             .UsingGet())
-                        .RespondWith(Response.Create().WithSuccess());
+                        .RespondWith(Response.Create().WithBodyAsJson(new
+                        {
+                            Number = 1,
+                        }));
 
                     response = await _client.PostAsync($"api/v1.0/values/{key}/0", null);
                 });
@@ -109,7 +110,7 @@ namespace ApiTemplate.Values.Api.Tests
                     var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
 
                     result.Key.Should().Be(key);
-                    result.Value.Should().Be(123);
+                    result.Value.Should().Be(1);
                     server.Stop();
                 });
         }
