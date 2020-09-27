@@ -43,7 +43,7 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
         }
 
         [Theory, AutoData]
-        public async Task ReturnConflictWhenYouTryToCreateAnExistingValueItemWithTheSameKey(ValueItemEntity valueItemEntity)
+        public void ReturnConflictWhenYouTryToCreateAnExistingValueItemWithTheSameKey(ValueItemEntity valueItemEntity)
         {
             _valueItemRepository.Get(valueItemEntity.Key).Returns(Option.Some(valueItemEntity));
 
