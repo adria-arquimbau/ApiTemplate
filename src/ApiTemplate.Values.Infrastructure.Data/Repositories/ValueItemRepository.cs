@@ -18,13 +18,15 @@ namespace ApiTemplate.Values.Infrastructure.Data.Repositories
 
         public async Task<Option<ValueItemEntity>> Get(string key)
         {
-            var item = await _valueItemDbContext.ValueItems.FirstOrDefaultAsync(i => i.Key == key);     
+            var item = await _valueItemDbContext.ValueItems.FirstOrDefaultAsync(i => i.Key == key);   
+            
             return item.SomeNotNull();
         }
 
         public async Task<IReadOnlyCollection<ValueItemEntity>> Get()
         {
             var items = await _valueItemDbContext.ValueItems.ToListAsync();
+              
             return items;
         }
 

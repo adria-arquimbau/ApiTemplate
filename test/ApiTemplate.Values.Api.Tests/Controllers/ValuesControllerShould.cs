@@ -14,7 +14,7 @@ using WireMock.Server;
 using Xbehave;
 using Xunit;
 
-namespace ApiTemplate.Values.Api.Tests
+namespace ApiTemplate.Values.Api.Tests.Controllers
 {
     public class ValuesControllerShould :
         IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -319,10 +319,9 @@ namespace ApiTemplate.Values.Api.Tests
                 {
                     response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
+                    var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
 
-                    result.Key.Should().Be(keyToUpdate);
-                    result.Value.Should().Be(valueToUpdate);
+                    result.Should().BeEquivalentTo(request);
                 });
         }
     }

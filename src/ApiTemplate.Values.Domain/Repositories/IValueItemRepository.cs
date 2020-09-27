@@ -12,6 +12,6 @@ namespace ApiTemplate.Values.Domain.Repositories
         Task Create(ValueItemEntity itemEntity);
         Task Delete(ValueItemEntity valueItemEntity);
         Task Update(ValueItemEntity valueItemEntity);
-    }
+    }   
 }
             

@@ -20,9 +20,8 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItems
 
         public async Task<GetValueItemsQueryResponse> Handle(GetValueItemsQueryRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Retrieving all value items");
             var items = await _itemRepository.Get();
-            _logger.LogInformation("Retrieved {items.Count} value items", items.Count);
+
             return new GetValueItemsQueryResponse(items);
         }
     }
