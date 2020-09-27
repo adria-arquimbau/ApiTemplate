@@ -55,16 +55,10 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     response = await _client.PostAsync($"api/v1.0/values/{valueItem.Key}/{valueItem.Value}", null);
                 });
 
-            "Then the response was successful"
-                .x(async () =>
-                {
-                    response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
-                });
-
             "Then the request was successful"
                 .x(() =>
                 {
-                    response.StatusCode.Should().Be(HttpStatusCode.OK);
+                    response.StatusCode.Should().Be(HttpStatusCode.Created);
                 });
 
             "Then the itemEntity is returned with the right information"
