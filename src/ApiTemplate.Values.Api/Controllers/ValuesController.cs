@@ -28,6 +28,7 @@ namespace ApiTemplate.Values.Api.Controllers
 
         [HttpGet("{key}")]
         [ProducesResponseType(typeof(ValueItemResponse),(int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [Produces("application/json")]
         public async Task<IActionResult> Get(string key)
         {

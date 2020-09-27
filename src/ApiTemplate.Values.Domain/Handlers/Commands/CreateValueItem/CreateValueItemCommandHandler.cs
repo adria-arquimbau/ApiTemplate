@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ApiTemplate.Values.Domain.Entities;
+using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Proxies;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
@@ -19,11 +20,11 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
             _numbersProxy = numbersProxy;
         }   
 
-        public async Task<CreateValueItemCommandResponse> Handle(CreateValueItemCommandRequest commandRequest, CancellationToken cancellationToken)
-        {
-            var valueInt = commandRequest.Value;
+        public async Task<CreateValueItemCommandResponse> Handle(CreateValueItemCommandRequest request, CancellationToken cancellationToken)
+        {   
+            var valueInt = request.Value;
 
-            if (commandRequest.Value == 0)
+            if (request.Value == 0)
             {
                 var value = await _numbersProxy.Get();
                 value.Match(v =>
@@ -31,11 +32,14 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
                     valueInt = v;
 
                 }, (() => throw new NotImplementedException()));
-                
             }
 
-            var item = new ValueItemEntity(commandRequest.Key, valueInt);
+            var item = new ValueItemEntity(request.Key, valueInt);
 
+            var valueItem = await _valueItemRepository.Get(request.Key);
+
+           if (valueItem.HasValue) throw new ValueItemAlreadyExists();
+            
             await _valueItemRepository.Create(item);
             
            return new CreateValueItemCommandResponse
