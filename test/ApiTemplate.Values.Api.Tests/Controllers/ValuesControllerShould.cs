@@ -61,10 +61,15 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
                 });
 
+            "Then the request was successful"
+                .x(() =>
+                {
+                    response.StatusCode.Should().Be(HttpStatusCode.OK);
+                });
+
             "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
-                    response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
 
@@ -143,6 +148,12 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     response = await _client.GetAsync($"api/v1.0/values/{key}");
                 });
 
+            "Then the request was successful"
+                .x(() =>
+                {
+                    response.StatusCode.Should().Be(HttpStatusCode.OK);
+                });
+
             "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
@@ -177,10 +188,15 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     response = await _client.GetAsync($"api/v1.0/values/");
                 });
 
+            "Then the request was successful"
+                .x(() =>
+                {
+                    response.StatusCode.Should().Be(HttpStatusCode.OK);
+                });
+
             "Then all the items are returned with the right informaiton"
                 .x(async () =>
                 {
-                    response.EnsureSuccessStatusCode();
                     var json = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<List<ValueItemEntity>>(json);
 
@@ -206,7 +222,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 });
 
             "Then the API returns NotFound"
-                .x(async () =>
+                .x(() =>
                 {
                     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
                 });
@@ -237,7 +253,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 });
 
             "Then the request was successful"
-                .x(async () =>
+                .x(() =>
                 {
                     deletedResponse.StatusCode.Should().Be(HttpStatusCode.OK);
                 });
@@ -249,7 +265,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 });
 
             "Then the value itemEntity not exists"
-                .x(async () =>
+                .x(() =>
                 {
                     getResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
                 });
@@ -273,7 +289,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 });
 
             "Then the response was not found"
-                .x(async () =>
+                .x(() =>
                 {
                     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
                 });
