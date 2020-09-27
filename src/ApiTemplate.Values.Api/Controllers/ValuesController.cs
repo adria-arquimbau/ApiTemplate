@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using ApiTemplate.Values.Api.Models;
+using ApiTemplate.Values.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ApiTemplate.Values.Domain.Exceptions;
@@ -24,6 +27,8 @@ namespace ApiTemplate.Values.Api.Controllers
         }   
 
         [HttpGet("{key}")]
+        [ProducesResponseType(typeof(ValueItemResponse),(int)HttpStatusCode.OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Get(string key)
         {
             var request = new GetValueItemRequest(key);
@@ -35,6 +40,8 @@ namespace ApiTemplate.Values.Api.Controllers
 
 
         [HttpGet()]
+        [ProducesResponseType(typeof(IReadOnlyCollection<ValueItemEntity>), (int)HttpStatusCode.OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Get()
         {
             var request = new GetValueItemsQueryRequest();
@@ -45,6 +52,8 @@ namespace ApiTemplate.Values.Api.Controllers
         }
 
         [HttpDelete("{key}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [Produces("application/json")]
         public async Task<IActionResult> Delete(string key)
         {
             var request = new DeleteValueItemRequest(key);
@@ -52,7 +61,9 @@ namespace ApiTemplate.Values.Api.Controllers
             return Ok();  
         }
 
-        [HttpPost("{key}/{value}/")]
+        [HttpPost("{key}/{value}")]
+        [ProducesResponseType(typeof(ValueItemResponse), (int)HttpStatusCode.Created)]
+        [Produces("application/json")]
         public async Task<IActionResult> Post(string key, int value)
         {
             var request = new CreateValueItemCommandRequest(key, value);
@@ -65,7 +76,9 @@ namespace ApiTemplate.Values.Api.Controllers
         }
 
         [HttpPut("{key}")]
-        public async Task<IActionResult> Put(string key, [FromBody]ValueItemRequest item)
+        [ProducesResponseType(typeof(ValueItemResponse), (int)HttpStatusCode.OK)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Put([FromRoute]string key, [FromBody]ValueItemRequest item)
         {
             if (key.Length < 5) throw new KeyTooShortException("The key is too short.", key, key.Length);
 

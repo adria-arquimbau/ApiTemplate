@@ -18,6 +18,8 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.UpdateValueItem
             
         public async Task<UpdateValueItemCommandResponse> Handle(UpdateValueItemCommandRequest request, CancellationToken cancellationToken)
         {
+            if (request.Key.Length < 5) throw new KeyTooShortException("The key is too short.", request.Key, request.Key.Length);
+
             var valueItem = await _valueItemRepository.Get(request.Identifier);
 
             return await valueItem.Match(async v =>
