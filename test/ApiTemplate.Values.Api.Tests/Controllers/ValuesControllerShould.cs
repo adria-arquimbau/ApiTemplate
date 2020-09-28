@@ -101,7 +101,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 });
 
             "Then the response was successful"
-                .x(async () =>
+                .x(() =>
                 {
                     response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
                 });
