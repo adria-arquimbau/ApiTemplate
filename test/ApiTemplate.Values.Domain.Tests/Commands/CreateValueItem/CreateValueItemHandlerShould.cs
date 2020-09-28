@@ -15,15 +15,14 @@ namespace ApiTemplate.Values.Domain.Tests.Commands.CreateValueItem
 {
     public class CreateValueItemHandlerShould
     {
-        private readonly INumbersProxy _numbersProxy;
         private readonly IValueItemRepository _valueItemRepository;
         private readonly CreateValueItemCommandHandler _handler;
 
         public CreateValueItemHandlerShould()   
         {
-            _numbersProxy = Substitute.For<INumbersProxy>();
+            var numbersProxy = Substitute.For<INumbersProxy>();
             _valueItemRepository = Substitute.For<IValueItemRepository>();
-            _handler = new CreateValueItemCommandHandler(_valueItemRepository, _numbersProxy);
+            _handler = new CreateValueItemCommandHandler(_valueItemRepository, numbersProxy);
         }
 
         [Theory, AutoData]

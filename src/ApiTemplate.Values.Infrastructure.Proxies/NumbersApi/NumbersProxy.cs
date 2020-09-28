@@ -10,7 +10,6 @@ namespace ApiTemplate.Values.Infrastructure.Proxies.NumbersApi
     public class NumbersProxy : ApiClient, INumbersProxy
     {
         private readonly HttpClient _httpClient;
-        const string Scheme = "Bearer";
 
         public NumbersProxy(HttpClient httpClient) : base(httpClient)
         {
