@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ApiTemplate.Values.Domain\ApiTemplate.Values.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\DocumentsTypeConfiguration.cs" />
+  </ItemGroup>
+
 </Project>
