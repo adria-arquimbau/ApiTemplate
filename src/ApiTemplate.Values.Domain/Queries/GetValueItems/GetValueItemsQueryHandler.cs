@@ -10,12 +10,10 @@ namespace ApiTemplate.Values.Domain.Queries.GetValueItems
     public class GetValueItemsQueryHandler : IRequestHandler<GetValueItemsQueryRequest, GetValueItemsQueryResponse>
     {
         private readonly IValueItemRepository _itemRepository;
-        private readonly ILogger<GetValueItemsQueryHandler> _logger;
 
         public GetValueItemsQueryHandler(IValueItemRepository itemRepository, ILogger<GetValueItemsQueryHandler> logger)
         {
             _itemRepository = itemRepository;
-            _logger = logger;
         }
 
         public async Task<GetValueItemsQueryResponse> Handle(GetValueItemsQueryRequest request, CancellationToken cancellationToken)

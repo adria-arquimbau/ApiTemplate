@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Proxies;
 using Newtonsoft.Json;
@@ -33,10 +32,5 @@ namespace ApiTemplate.Values.Infrastructure.Proxies.NumbersApi
 
             return Option.Some(result.Number);
         }
-    }
-
-    public class NumbersResponse
-    {
-        public int Number { get; set; }
     }
 }   

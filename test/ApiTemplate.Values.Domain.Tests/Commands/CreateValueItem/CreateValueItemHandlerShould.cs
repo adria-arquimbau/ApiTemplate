@@ -1,19 +1,13 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
-using FakeItEasy;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using ApiTemplate.Values.Domain.Entities;
 using ApiTemplate.Values.Domain.Exceptions;
 using ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem;
 using ApiTemplate.Values.Domain.Proxies;
-using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Repositories;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using Optional;
 using Xunit;
 
