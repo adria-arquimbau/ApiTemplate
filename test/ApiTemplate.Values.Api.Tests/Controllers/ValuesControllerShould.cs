@@ -33,14 +33,8 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         }
 
         [Scenario, AutoData]
-        public void CreateAValueItemGivenAKeyAndValue()
+        public void CreateAValueItemGivenAKeyAndValue(ValueItemResponse valueItem)
         {
-            var valueItem = new ValueItemResponse
-            {
-                Value = 123,
-                Key = "abc"
-            };
-
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             "Deleting all items on the data base"

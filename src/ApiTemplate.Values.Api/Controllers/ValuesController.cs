@@ -30,7 +30,7 @@ namespace ApiTemplate.Values.Api.Controllers
         [ProducesResponseType(typeof(ValueItemResponse),(int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [Produces("application/json")]
-        public async Task<IActionResult> Get(string key)
+        public async Task<IActionResult> Get([FromRoute]string key)
         {
             var request = new GetValueItemRequest(key);
 
