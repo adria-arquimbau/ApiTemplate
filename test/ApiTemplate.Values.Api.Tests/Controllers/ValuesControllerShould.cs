@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using ApiTemplate.Values.Api.Models;
 using ApiTemplate.Values.Domain.Entities;
 using AutoFixture.Xunit2;
@@ -30,18 +31,13 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
             {   
                 AllowAutoRedirect = false
             });
+            Task.WaitAll(_factory.RespawnDbContext());
         }
 
         [Scenario, AutoData]
         public void CreateAValueItemGivenAKeyAndValue(ValueItemResponse valueItem)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
-
-            "Deleting all items on the data base"
-                .x(async () =>
-                {   
-                    await _factory.RespawnDbContext();
-                });
 
             "When we ask to create the itemEntity"
                 .x(async () =>
@@ -71,13 +67,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             var server = WireMockServer.Start(10800);
-
-            "Deleting all items on the data base"
-                .x(async () =>
-                {
-                    await _factory.RespawnDbContext();
-                });
-
+            
             "When we ask to create the itemEntity"
                 .x(async () =>
                 {
@@ -122,7 +112,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 .x(async () =>
                 {
                     var item = new ValueItemEntity(key, value);
-                    await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
                         await context.ValueItems.AddAsync(item);
@@ -162,7 +151,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
             "Given there are items in the database"
                 .x(async () =>
                 {
-                    await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
                         await context.ValueItems.AddRangeAsync(valueItems);
@@ -197,12 +185,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "Given an itemEntity is not in the database"
-                .x(async () =>
-                {
-                    await _factory.RespawnDbContext();
-                });
-
             "When we ask for that itemEntity through the API"
                 .x(async () =>
                 {
@@ -226,7 +208,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 .x(async () =>
                 {
                     var item = new ValueItemEntity(key, value);
-                    await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
                         await context.ValueItems.AddAsync(item);
@@ -264,12 +245,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "Delete all items in the database"
-                .x(async () =>
-                {
-                    await _factory.RespawnDbContext();
-                });
-
             "When we ask for delete the specific itemEntity"
                 .x(async () =>
                 {
@@ -297,7 +272,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 .x(async () =>
                 {
                     var item = new ValueItemEntity(key, value);
-                    await _factory.RespawnDbContext();
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
                         await context.ValueItems.AddAsync(item);

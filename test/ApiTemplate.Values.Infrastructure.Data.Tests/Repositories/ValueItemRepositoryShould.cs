@@ -18,13 +18,12 @@ namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories
         {
             _testContext = new TestContext();
             _valueItemRepository = new ValueItemRepository(_testContext.TestDbContext());
+            Task.WaitAll(_testContext.RespawnDb());
         }
 
         [Theory, AutoData]
         public async Task DeleteAValueItemGivenAKey(string key)
         {
-            await _testContext.RespawnDb();
-
             var valueItem = new ValueItemEntity(key, 12345);
 
             await _valueItemRepository.Create(valueItem);
@@ -39,8 +38,6 @@ namespace ApiTemplate.Values.Infrastructure.Data.Tests.Repositories
         [Theory, AutoData]
         public async Task UpdateValueItem(string key, int value, string updatedKey, int updatedValue)
         {
-            await _testContext.RespawnDb();
-
             await _valueItemRepository.Create(new ValueItemEntity(key, value));
 
             var valueItem = await _valueItemRepository.Get(key);
