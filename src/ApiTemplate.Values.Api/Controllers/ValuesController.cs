@@ -6,8 +6,8 @@ using ApiTemplate.Values.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ApiTemplate.Values.Domain.Exceptions;
-using ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem;
 using ApiTemplate.Values.Domain.Handlers.Commands.UpdateValueItem;
+using ApiTemplate.Values.Domain.Handlers.Notifications.CreateValueItem;
 using ApiTemplate.Values.Domain.Handlers.Notifications.DeleteValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItem;
 using ApiTemplate.Values.Domain.Queries.GetValueItems;
@@ -67,7 +67,7 @@ namespace ApiTemplate.Values.Api.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Post([FromBody] ValueItemRequest valueItemRequest)
         {
-            await _mediator.Send(new CreateValueItemCommandRequest(valueItemRequest.Key, valueItemRequest.Value));
+            await _mediator.Publish(new CreateValueItemRequest(valueItemRequest.Key, valueItemRequest.Value));
             return Created("", null);
         }
 

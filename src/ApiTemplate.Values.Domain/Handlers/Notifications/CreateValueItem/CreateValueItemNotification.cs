@@ -7,20 +7,20 @@ using ApiTemplate.Values.Domain.Proxies;
 using ApiTemplate.Values.Domain.Repositories;
 using MediatR;
 
-namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
+namespace ApiTemplate.Values.Domain.Handlers.Notifications.CreateValueItem
 {
-    public class CreateValueItemCommandHandler : IRequestHandler<CreateValueItemCommandRequest, CreateValueItemCommandResponse>
+    public class CreateValueItemNotification : INotificationHandler<CreateValueItemRequest>
     {
         private readonly IValueItemRepository _valueItemRepository;
         private readonly INumbersProxy _numbersProxy;
 
-        public CreateValueItemCommandHandler(IValueItemRepository valueItemRepository, INumbersProxy numbersProxy)
+        public CreateValueItemNotification(IValueItemRepository valueItemRepository, INumbersProxy numbersProxy)
         {
             _valueItemRepository = valueItemRepository;
             _numbersProxy = numbersProxy;
         }   
 
-        public async Task<CreateValueItemCommandResponse> Handle(CreateValueItemCommandRequest request, CancellationToken cancellationToken)
+        public async Task Handle(CreateValueItemRequest request, CancellationToken cancellationToken)
         {   
             var valueInt = request.Value;
 
@@ -40,13 +40,7 @@ namespace ApiTemplate.Values.Domain.Handlers.Commands.CreateValueItem
 
            if (valueItem.HasValue) throw new ValueItemAlreadyExists();
             
-            await _valueItemRepository.Create(item);
-            
-           return new CreateValueItemCommandResponse
-           {
-               Key = item.Key,
-               Value = item.Value
-           };
+           await _valueItemRepository.Create(item);
         }
     }
 }
