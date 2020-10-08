@@ -8,6 +8,7 @@ using ApiTemplate.Values.Domain.Entities;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -53,26 +54,30 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     response.StatusCode.Should().Be(HttpStatusCode.Created);
                 });
 
-            "Then the itemEntity is returned with the right information"
+            "Then the itemEntity was introduced with the right information"
                 .x(async () =>
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
+                    ValueItemEntity valueItem = null;
+                    
+                    await _factory.ExecuteDbContextAsync(async context =>
+                    {
+                        valueItem = await context.ValueItems.FirstOrDefaultAsync(v => v.Key == valueItemRequest.Key);
+                    });
 
-                    result.Key.Should().Be(valueItemRequest.Key);
-                    result.Value.Should().Be(valueItemRequest.Value);
+                    valueItem.Key.Should().Be(valueItemRequest.Key);
+                    valueItem.Value.Should().Be(valueItemRequest.Value);    
                 });
         }
 
         [Scenario, AutoData]
-        public void CreateAValueItemGivenAKeyAndValue0(string key)
+        public void CreateAValueItemWithAutoValueOneGivenAKeyAndValue0(string key)    
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             var server = WireMockServer.Start(10800);
             
             "When we ask to create the itemEntity"
-                .x(async () =>
+                .x(async () =>    
                 {
                     server
                         .Given(Request
@@ -103,12 +108,15 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
             "Then the itemEntity is returned with the right information"
                 .x(async () =>
                 {
-                    response.EnsureSuccessStatusCode();
-                    var json = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ValueItemEntity>(json);
+                    ValueItemEntity valueItem = null;
+                    
+                    await _factory.ExecuteDbContextAsync(async context =>
+                    {
+                        valueItem = await context.ValueItems.FirstOrDefaultAsync(v => v.Key == key);
+                    });
 
-                    result.Key.Should().Be(key);
-                    result.Value.Should().Be(1);
+                    valueItem.Key.Should().Be(key);
+                    valueItem.Value.Should().Be(1);   
                 });
         }
 
