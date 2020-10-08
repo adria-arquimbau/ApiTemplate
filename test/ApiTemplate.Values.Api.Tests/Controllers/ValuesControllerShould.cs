@@ -35,14 +35,16 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         }
 
         [Scenario, AutoData]
-        public void CreateAValueItemGivenAKeyAndValue(ValueItemResponse valueItem)
+        public void CreateAValueItemGivenAKeyAndValue(ValueItemRequest valueItemRequest)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
             "When we ask to create the itemEntity"
                 .x(async () =>
                 {
-                    response = await _client.PostAsync($"api/v1.0/values/{valueItem.Key}/{valueItem.Value}", null);
+                    response = await _client.PostAsync($"api/v1.0/values/", new StringContent(JsonConvert.SerializeObject(valueItemRequest),
+                        Encoding.UTF8,
+                        "application/json"));
                 });
 
             "Then the request was successful"
@@ -57,7 +59,8 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     var json = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ValueItemResponse>(json);
 
-                    result.Should().BeEquivalentTo(valueItem);
+                    result.Key.Should().Be(valueItemRequest.Key);
+                    result.Value.Should().Be(valueItemRequest.Value);
                 });
         }
 
@@ -81,7 +84,14 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                             Number = 1,
                         }));
 
-                    response = await _client.PostAsync($"api/v1.0/values/{key}/0", null);
+                    response = await _client.PostAsync($"api/v1.0/values/", new StringContent(JsonConvert.SerializeObject(new ValueItemRequest
+                    {
+                        Key = key,
+                        Value = 0
+                    }),
+                        Encoding.UTF8,
+                        "application/json"));
+                    server.Stop();
                 });
 
             "Then the response was successful"
@@ -99,7 +109,6 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
 
                     result.Key.Should().Be(key);
                     result.Value.Should().Be(1);
-                    server.Stop();
                 });
         }
 

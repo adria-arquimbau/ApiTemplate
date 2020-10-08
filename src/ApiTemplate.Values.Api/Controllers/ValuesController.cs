@@ -62,17 +62,16 @@ namespace ApiTemplate.Values.Api.Controllers
             return Ok();  
         }
 
-        [HttpPost("{key}/{value}")]
+        [HttpPost]
         [ProducesResponseType(typeof(ValueItemResponse), (int)HttpStatusCode.Created)]
         [Produces("application/json")]
-        public async Task<IActionResult> Post(string key, int value)
+        public async Task<IActionResult> Post([FromBody] ValueItemRequest valueItemRequest)
         {
-            var request = new CreateValueItemCommandRequest(key, value);
-            var valueItem = await _mediator.Send(request);
-            return Created("" ,new ValueItemResponse
+            var valueItem = await _mediator.Send(new CreateValueItemCommandRequest(valueItemRequest.Key, valueItemRequest.Value));
+            return Created("" ,new ValueItemResponse    
             {
                 Key = valueItem.Key,
-                Value = valueItem.Value
+                Value = valueItem.Value    
             });
         }
 
