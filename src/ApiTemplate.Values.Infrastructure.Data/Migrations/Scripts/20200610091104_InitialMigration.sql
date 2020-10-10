@@ -11,9 +11,6 @@ CREATE TABLE "ValueItems" (
     CONSTRAINT "PK_ValueItems" PRIMARY KEY ("Id")
 );
 
-INSERT INTO "ValueItems" ("Id", "Key", "Value")
-VALUES ('10000000-0000-0000-0000-000000000000', 'asdf', 42);
-
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20200610091104_InitialMigration', '3.1.5');
 
