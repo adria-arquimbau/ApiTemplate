@@ -35,10 +35,10 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
-            "When we ask to create the itemEntity"
+            "When we ask to save an artifact"
                 .x(async () =>
                 {
-                    response = await _client.PostAsync($"api/v1.0/values/", new StringContent(JsonConvert.SerializeObject(valueItemRequest),
+                    response = await _client.PostAsync($"api/v1.0/artifact/", new StringContent(JsonConvert.SerializeObject(valueItemRequest),
                         Encoding.UTF8,
                         "application/json"));
                 });
