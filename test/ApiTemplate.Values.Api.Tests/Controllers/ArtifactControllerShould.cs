@@ -57,7 +57,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                     
                     await _factory.ExecuteDbContextAsync(async context =>
                     {
-                        valueItem = await context.ValueItems.FirstOrDefaultAsync(v => v.Key == valueItemRequest.Key);
+                        valueItem = await context.ValueItems.FirstOrDefaultAsync();
                     });
 
                 });
