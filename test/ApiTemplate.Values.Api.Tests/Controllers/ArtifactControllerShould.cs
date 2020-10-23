@@ -1,6 +1,15 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using ApiTemplate.Values.Api.Models;
+using ApiTemplate.Values.Domain.Entities;
+using AutoFixture.Xunit2;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Xbehave;
 using Xunit;
 
 namespace ApiTemplate.Values.Api.Tests.Controllers
@@ -19,6 +28,40 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
                 AllowAutoRedirect = false
             });
             Task.WaitAll(_factory.RespawnDbContext());
+        }
+        
+        [Scenario, AutoData]
+        public void SaveAnArtifact(ValueItemRequest valueItemRequest)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+
+            "When we ask to create the itemEntity"
+                .x(async () =>
+                {
+                    response = await _client.PostAsync($"api/v1.0/values/", new StringContent(JsonConvert.SerializeObject(valueItemRequest),
+                        Encoding.UTF8,
+                        "application/json"));
+                });
+
+            "Then the request was successful"
+                .x(() =>
+                {
+                    response.StatusCode.Should().Be(HttpStatusCode.Created);
+                });
+
+            "Then the itemEntity was introduced with the right information"
+                .x(async () =>
+                {
+                    ValueItemEntity valueItem = null;
+                    
+                    await _factory.ExecuteDbContextAsync(async context =>
+                    {
+                        valueItem = await context.ValueItems.FirstOrDefaultAsync(v => v.Key == valueItemRequest.Key);
+                    });
+
+                    valueItem.Key.Should().Be(valueItemRequest.Key);
+                    valueItem.Value.Should().Be(valueItemRequest.Value);    
+                });
         }
     }
 }
