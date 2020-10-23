@@ -35,6 +35,7 @@ namespace ApiTemplate.Values.Api.Tests.Controllers
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotImplemented);
 
+            
             "When we ask to save an artifact"
                 .x(async () =>
                 {
